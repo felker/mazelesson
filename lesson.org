@@ -48,19 +48,19 @@
 * We can look at a "State" of the maze
 #+begin_src ditaa :file s1.png :cmdline -E
 
- 	 	+---+
- 	 	|   |
- 	 	| X |
- 	 	|   |
- 	 	+---+---+---+
- 	 	|   |	|   |
-	 	|   | 	|   |
- 	 	|   |   |   |
- 	 	+---+---+---+
- 	 	|   |
- 	 	|   |
-		|   |
-		+---+
+                +---+
+                |   |
+                | X |
+                |   |
+                +---+---+---+
+                |   |   |   |
+                |   |   |   |
+                |   |   |   |
+                +---+---+---+
+                |   |
+                |   |
+                |   |
+                +---+
 #+end_src
 
 #+RESULTS:
@@ -251,28 +251,28 @@
   - if not solved, remove us from the board
 * Solver
 #+begin_src java
-		public void solve(int x, int y){
-				if (board[x][y]==wall ||
-						board[x][y]==visited ||
-						solved){
-						return;
-				}
+                public void solve(int x, int y){
+                                if (board[x][y]==wall ||
+                                                board[x][y]==visited ||
+                                                solved){
+                                                return;
+                                }
 
-				if (board[x][y]==exit){
-						System.out.println(this);
-						solved = true;
-				}
+                                if (board[x][y]==exit){
+                                                System.out.println(this);
+                                                solved = true;
+                                }
 
-				System.out.println(this);
-				board[x][y]=me;
-				solve(x+1,y);
-				solve(x-1,y);
-				solve(x,y+1);
-				solve(x,y-1);
-				if (!solved){
-						board[x][y]=visited;
-				}
-		}
+                                System.out.println(this);
+                                board[x][y]=me;
+                                solve(x+1,y);
+                                solve(x-1,y);
+                                solve(x,y+1);
+                                solve(x,y-1);
+                                if (!solved){
+                                                board[x][y]=visited;
+                                }
+                }
 
 #+end_src
 * Let's look at finished solver
