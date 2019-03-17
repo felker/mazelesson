@@ -1,25 +1,33 @@
-#+REVEAL_ROOT: ./
-#+REVEAL_EXTRA_CSS: maze.css
-#+REVEAL_TITLE_SLIDE_TEMPLATE: Recursive Search
+# -*- mode: org -*-
+# #+REVEAL_ROOT: ./
+#+REVEAL_EXTRA_CSS: ./maze.css
+#+REVEAL_THEME: simple
+# #+REVEAL_TITLE_SLIDE_TEMPLATE: Recursive Search
+
+# KGF: This was the old way to customize the title slide (last commit was in 2015)
+# Changed in 2016. See bottom of this document for new way to override automatic title.
+# https://github.com/yjwen/org-reveal/issues/272
+
 #+OPTIONS: num:nil toc:nil
 
 * Prerequisites
 - Simple recursion in Java
 - How the recursion stack saves values
-* 
+*
 #+begin_html
 <table>
 <tr><td><img class="quad" src="maze1.jpg"></td><td><img class="quad" src="maze4.jpg"></td></tr>
 <tr><td><img class="quad" src="maze3.jpg"></td><td><img class="quad" src="maze2.jpg"></td></tr>
 </table>
 #+end_html
+
 * You're lost in a maze
 #+ATTR_REVEAL: :frag fade-in
 - How do you find your way out?
 - Right Hand rule:
-- 
+-
   #+begin_html
-  <img src=right.jpg>  
+  <img src=right.jpg>
   #+end_html
 * Fail!!!!!
 #+begin_html
@@ -33,27 +41,27 @@
   <img src="theseus.jpg">
   #+end_html
 - Hansel and Gretel
-- 
+-
   #+begin_html
   <img src="hansel.jpg">
   #+end_html
 * We can look at a "State" of the maze
 #+begin_src ditaa :file s1.png :cmdline -E
- 
- 	 	+---+	
+
+ 	 	+---+
  	 	|   |
  	 	| X |
- 	 	|   |	 	 	 
+ 	 	|   |
  	 	+---+---+---+
  	 	|   |	 	|   |
-	 	|   |	 	|   |	
+	 	|   |	 	|   |
  	 	|   |		|	  |
- 	 	+---+---+---+	 
- 	 	|   |	
- 	 	|   |	
+ 	 	+---+---+---+
+ 	 	|   |
+ 	 	|   |
 		|		|
 		+---+
-#+end_src				 	
+#+end_src
 
 #+RESULTS:
 [[file:s1.png]]
@@ -61,72 +69,72 @@
 * Or a bunch of states
 #+begin_src ditaa :file s2.png :cmdline -E
 
-                                                                                          
-  +---+                          +---+        
-  |   |                          |   |        
-  | X |                          | X |        
-  |   |                          |   |        
-  +---+---+---+                  +---+---+---+    
-  |   |   |   |                  |   |   |   |  
-  |   |   |   |                  | x |   |   |  
-  |   |   |   |                  |   |   |   |  
-  +---+---+---+                  +---+---+---+    
-  |   |                          |   |        
-  |   |                          |   |        
-  |   |                          |   |        
-  +---+                          +---+        
+
+  +---+                          +---+
+  |   |                          |   |
+  | X |                          | X |
+  |   |                          |   |
+  +---+---+---+                  +---+---+---+
+  |   |   |   |                  |   |   |   |
+  |   |   |   |                  | x |   |   |
+  |   |   |   |                  |   |   |   |
+  +---+---+---+                  +---+---+---+
+  |   |                          |   |
+  |   |                          |   |
+  |   |                          |   |
+  +---+                          +---+
 
 
-                                                        
-  +---+                          +---+                        +---+             
-  |   |                          |   |                        |   |           
-  | X |                          | X |                        | X |           
-  |   |                          |   |                        |   |           
-  +---+---+---+                  +---+---+---+                +---+---+---+   
-  |   |   |   |                  |   |   |   |                |   |   |   |   
-  | x |   |   |                  | x | x |   |                | x | x | x |   
-  |   |   |   |                  |   |   |   |                |   |   |   |   
-  +---+---+---+                  +---+---+---+                +---+---+---+   
-  |   |                          |   |                        |   |           
-  | x |                          |   |                        |   |           
-  |   |                          |   |                        |   |           
-  +---+                          +---+                        +---+           
-#+end_src				 	
+
+  +---+                          +---+                        +---+
+  |   |                          |   |                        |   |
+  | X |                          | X |                        | X |
+  |   |                          |   |                        |   |
+  +---+---+---+                  +---+---+---+                +---+---+---+
+  |   |   |   |                  |   |   |   |                |   |   |   |
+  | x |   |   |                  | x | x |   |                | x | x | x |
+  |   |   |   |                  |   |   |   |                |   |   |   |
+  +---+---+---+                  +---+---+---+                +---+---+---+
+  |   |                          |   |                        |   |
+  | x |                          |   |                        |   |
+  |   |                          |   |                        |   |
+  +---+                          +---+                        +---+
+#+end_src
 
 * And we can transition from state to state
 #+begin_src ditaa :file s3.png :cmdline -E
 
-                                                                                          
-  +---+                          +---+        
-  |   |                          |   |        
-  | X |                          | X |        
-  |   |                          |   |        
-  +---+---+---+                  +---+---+---+    
-  |   |   |   |                  |   |   |   |  
-  |   |   |   |----------------->| x |   |   |  
-  |   |   |   |                  |   |   |   |  
-  +---+---+---+                  +---+---+---+    
-  |   |                          |   |        
-  |   |                          |   |        
-  |   |                          |   |        
-  +---+                          +---+        
+
+  +---+                          +---+
+  |   |                          |   |
+  | X |                          | X |
+  |   |                          |   |
+  +---+---+---+                  +---+---+---+
+  |   |   |   |                  |   |   |   |
+  |   |   |   |----------------->| x |   |   |
+  |   |   |   |                  |   |   |   |
+  +---+---+---+                  +---+---+---+
+  |   |                          |   |
+  |   |                          |   |
+  |   |                          |   |
+  +---+                          +---+
     |                              |
     |                              |
-    v                              v                    
-  +---+                          +---+                        +---+             
-  |   |                          |   |                        |   |           
-  | X |                          | X |                        | X |           
-  |   |                          |   |                        |   |           
-  +---+---+---+                  +---+---+---+                +---+---+---+   
-  |   |   |   |                  |   |   |   |                |   |   |   |   
-  | x |   |   |                  | x | x |   |--------------->| x | x | x |   
-  |   |   |   |                  |   |   |   |                |   |   |   |   
-  +---+---+---+                  +---+---+---+                +---+---+---+   
-  |   |                          |   |                        |   |           
-  | x |                          |   |                        |   |           
-  |   |                          |   |                        |   |           
-  +---+                          +---+                        +---+           
-#+end_src				 	
+    v                              v
+  +---+                          +---+                        +---+
+  |   |                          |   |                        |   |
+  | X |                          | X |                        | X |
+  |   |                          |   |                        |   |
+  +---+---+---+                  +---+---+---+                +---+---+---+
+  |   |   |   |                  |   |   |   |                |   |   |   |
+  | x |   |   |                  | x | x |   |--------------->| x | x | x |
+  |   |   |   |                  |   |   |   |                |   |   |   |
+  +---+---+---+                  +---+---+---+                +---+---+---+
+  |   |                          |   |                        |   |
+  | x |                          |   |                        |   |
+  |   |                          |   |                        |   |
+  +---+                          +---+                        +---+
+#+end_src
 
 #+RESULTS:
 [[file:s2.png]]
@@ -173,7 +181,7 @@
 
 #+ATTR_REVEAL: :frag fade-in
 - Maze
-  #+begin_src ditaa :file mstack.png
+ #+begin_src ditaa :file mstack.png
   +-----------------+
   | Maze step 4     |
   |                 |
@@ -192,7 +200,7 @@
   +-----------------+
         Stack
   #+end_src
-  
+
 * Working it out
 #+ATTR_REVEAL: :frag fade-in
 - Base case?
@@ -209,27 +217,27 @@
 - Space = wall, # = path, z = us
 -
  #+begin_html
-<pre> 
- #################                      
- #   #        #  #                      
- #   #        #  ##################     
- #   #        #            #      #     
- #   #        #            #      #     
- #   #######  #   ##########      #     
- ###       #  #            #      #     
- ####################      #      #     
- #####       #                    #     
- #           #                    #     
- #           #       #            #     
- #           #       #            #     
- #           #       #            #     
-             #       #            #     
-  ################   ###############    
-                #            #######    
-                #                       
-                ##########$             
-     </pre>y                                   
-#+end_html                                       
+<pre>
+ #################
+ #   #        #  #
+ #   #        #  ##################
+ #   #        #            #      #
+ #   #        #            #      #
+ #   #######  #   ##########      #
+ ###       #  #            #      #
+ ####################      #      #
+ #####       #                    #
+ #           #                    #
+ #           #       #            #
+ #           #       #            #
+ #           #       #            #
+             #       #            #
+  ################   ###############
+                #            #######
+                #
+                ##########$
+     </pre>y
+#+end_html
 
 * Algorithm
 - Base cases
@@ -237,7 +245,7 @@
   - If we're at the exit, set solved to true and return
   - If we're solved, return
 - Recursive reduction
-  - Put us (z) in the current x,y location of the 2D array  
+  - Put us (z) in the current x,y location of the 2D array
   - solve from the x+1 location
   - solve from the x-1 location
   - solve from the y+1 location
@@ -275,4 +283,42 @@
 - Heuristic Search
 - Pathway to more advanced search (A*)
 - implicit data structures
-  
+
+* COMMENT KGF: Notes on Ditaa setup
+# Original Error on exporting with org-re-reveal:
+# org-babel-execute:ditaa: Could not find ditaa.jar at
+# /Users/kfelker/.emacs.d/elpa/contrib/scripts/ditaa.jar
+
+# INSTALL DITAA
+# brew install ditaa; brew unlink --dry-run ditaa
+# file /usr/local/bin/ditaa
+# shows that
+# /usr/local/bin/ditaa is a Bash script:
+# #!/bin/bash
+# exec java  -jar /usr/local/Cellar/ditaa/0.11.0/libexec/ditaa-0.11.0-standalone.jar "$@"
+
+# SYMBOLIC LINK FROM WHERE EMACS EXPECTS .JAR TO INSTALLED JAR
+# https://emacs.stackexchange.com/questions/20731/setting-up-ditaa-in-org-mode
+
+# cd ln -s /usr/local/Cellar/ditaa/0.11.0/libexec/ditaa-0.11.0-standalone.jar ditaa.jar
+#  ln -s /usr/local/Cellar/ditaa/0.11.0/libexec/ditaa-0.11.0-standalone.jar ditaa.jar
+
+* COMMENT Org-Mode File-Local Variables
+:PROPERTIES:
+:VISIBILITY: folded
+:end:
+
+# example of suggested fix from StackOverflow:
+# # org-reveal-title-slide: " <h1 class='mytitle'>%t</h1>"
+
+# Not sure why Control-L (caret notation for ASCII control codes) is font-locked as cyan
+# here, but orange in other .org mode documents based on org-min.org
+# M-x what-cursor-position:
+# Char: C-l (12, #o14, #xc) point=9193 of 9289 (99%) column=0
+# (the orange text color changed now in other files upon reopening?!?!?)
+
+
+# Local Variables:
+# mode: org
+# org-re-reveal-title-slide: "<h2>Recursive Search</h2>"
+# End:
