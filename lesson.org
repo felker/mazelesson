@@ -13,38 +13,38 @@
 * Prerequisites
 - Simple recursion in Java
 - How the recursion stack saves values
-*
-#+begin_html
-<table>
-<tr><td><img class="quad" src="maze1.jpg"></td><td><img class="quad" src="maze4.jpg"></td></tr>
-<tr><td><img class="quad" src="maze3.jpg"></td><td><img class="quad" src="maze2.jpg"></td></tr>
-</table>
-#+end_html
+-
+  #+begin_export html
+  <table>
+  <tr><td><img class="quad" src="maze1.jpg"></td><td><img class="quad" src="maze4.jpg"></td></tr>
+  <tr><td><img class="quad" src="maze3.jpg"></td><td><img class="quad" src="maze2.jpg"></td></tr>
+  </table>
+  #+end_export
 
 * You're lost in a maze
 #+ATTR_REVEAL: :frag fade-in
 - How do you find your way out?
 - Right Hand rule:
 -
-  #+begin_html
+  #+begin_export html
   <img src=right.jpg>
-  #+end_html
+  #+end_export
 * Fail!!!!!
-#+begin_html
+#+begin_export html
 <img src="right-fail.png">
-#+end_html
+#+end_export
 * Let's go to the literature
 #+ATTR_REVEAL: :frag fade-in
 - Theseus
 -
-  #+begin_html
+  #+begin_export html
   <img src="theseus.jpg">
-  #+end_html
+  #+end_export
 - Hansel and Gretel
 -
-  #+begin_html
+  #+begin_export html
   <img src="hansel.jpg">
-  #+end_html
+  #+end_export
 * We can look at a "State" of the maze
 #+begin_src ditaa :file s1.png :cmdline -E
 
@@ -103,8 +103,6 @@
 
 * And we can transition from state to state
 #+begin_src ditaa :file s3.png :cmdline -E
-
-
   +---+                          +---+
   |   |                          |   |
   | X |                          | X |
@@ -216,7 +214,7 @@
 - 2D array
 - Space = wall, # = path, z = us
 -
- #+begin_html
+ #+begin_export html
 <pre>
  #################
  #   #        #  #
@@ -237,7 +235,7 @@
                 #
                 ##########$
      </pre>y
-#+end_html
+#+end_export
 
 * Algorithm
 - Base cases
@@ -284,7 +282,7 @@
 - Pathway to more advanced search (A*)
 - implicit data structures
 
-* COMMENT KGF: Notes on Ditaa setup
+* COMMENT KGF: Notes on Ditaa setup, HTML exporting
 # Original Error on exporting with org-re-reveal:
 # org-babel-execute:ditaa: Could not find ditaa.jar at
 # /Users/kfelker/.emacs.d/elpa/contrib/scripts/ditaa.jar
@@ -303,6 +301,19 @@
 # cd ln -s /usr/local/Cellar/ditaa/0.11.0/libexec/ditaa-0.11.0-standalone.jar ditaa.jar
 #  ln -s /usr/local/Cellar/ditaa/0.11.0/libexec/ditaa-0.11.0-standalone.jar ditaa.jar
 
+https://emacs.stackexchange.com/questions/33601/how-to-include-rendered-html-in-org-mode
+[BTW, this assumes a recent version of org-mode. Earlier versions used #+BEGIN_HTML
+... #+END_HTML instead.]
+
+Changed in v9.2!
+https://www.reddit.com/r/orgmode/comments/aasc9m/org_92_released/
+Hi, I found out that #+BEGIN_HTML... #+END_HTML for rendering HTML code blocks when
+exporting is not working (at least from version 9.1.9 on) anymore. Is there any other
+change we should get awarded of?
+
+
+Org Mode: Structure Templates
+https://orgmode.org/manual/Structure-Templates.html
 * COMMENT Org-Mode File-Local Variables
 :PROPERTIES:
 :VISIBILITY: folded
