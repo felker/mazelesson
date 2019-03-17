@@ -53,13 +53,13 @@
  	 	| X |
  	 	|   |
  	 	+---+---+---+
- 	 	|   |	 	|   |
-	 	|   |	 	|   |
- 	 	|   |		|	  |
+ 	 	|   |	|   |
+	 	|   | 	|   |
+ 	 	|   |   |   |
  	 	+---+---+---+
  	 	|   |
  	 	|   |
-		|		|
+		|   |
 		+---+
 #+end_src
 
@@ -314,6 +314,58 @@ change we should get awarded of?
 
 Org Mode: Structure Templates
 https://orgmode.org/manual/Structure-Templates.html
+
+* COMMENT Why is ~save-buffer~ calling ~delete-trailing-whitespace~
+#+begin_example
+M-x debug-on-entry RET delete-trailing-whitespace
+Debugger entered--entering a function:
+  * delete-trailing-whitespace()
+  (save-excursion (delete-trailing-whitespace))
+  (lambda nil (save-excursion (delete-trailing-whitespace)))()
+  run-hook-with-args-until-success((lambda nil (save-excursion (delete-trailing-whitespace))))
+  basic-save-buffer(t)
+  save-buffer(1)
+  funcall-interactively(save-buffer 1)
+  call-interactively(save-buffer nil nil)
+  command-execute(save-buffer)
+#+end_example
+
+https://stackoverflow.com/questions/1931784/emacs-is-before-save-hook-a-local-variable
+I added delete-trailing-whitespace to the before-save-hook in my c-mode-common-hook, but
+it looks like delete-trailing-whitespace is getting called for every file, not just
+buffers using c-mode and derivatives.
+
+ANSWER: ~local-write-file-hooks~
+
+Add it to ~write-contents-functions~ instead:
+
+This works just like write-file-functions, but it is intended for hooks that pertain to
+the buffer's contents, not to the particular visited file or its location. Such hooks are
+usually set up by major modes, as buffer-local bindings for this variable. This variable
+automatically becomes buffer-local whenever it is set; switching to a new major mode
+always resets this variable, but calling set-visited-file-name does not.
+
+Variable: local-write-file-hooks
+This works just like write-file-hooks, but it is intended to be made local to particular
+buffers. It's not a good idea to make write-file-hooks local to a buffer--use this
+variable instead.
+
+
+
+#+begin_example
+local-write-file-hooks is a variable defined in ‘files.el’.
+Its value is
+((lambda nil
+   (save-excursion
+     (delete-trailing-whitespace))))
+Local in buffer lesson.org; global value is nil
+
+  Automatically becomes permanently buffer-local when set.
+  This variable is obsolete since 22.1;
+  use ‘write-file-functions’ instead.
+  This variable may be risky if used as a file-local variable.
+#+end_example
+
 * COMMENT Org-Mode File-Local Variables
 :PROPERTIES:
 :VISIBILITY: folded
