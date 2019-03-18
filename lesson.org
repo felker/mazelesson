@@ -1,14 +1,35 @@
 # -*- mode: org -*-
+# This repository comes packaged with some files from reveal.js project.
+# Override variable in init.el pointing to my reveal.js installation.
 # #+REVEAL_ROOT: ./
+
 #+REVEAL_EXTRA_CSS: ./maze.css
+# org-info-js_console-label
+
+# "simple" theme seems to closely match this 2015 generated HTML. Must have set the
+# default theme as an Emacs variable in init.el:
 #+REVEAL_THEME: simple
+
+# EXCEPT font size
+
 # #+REVEAL_TITLE_SLIDE_TEMPLATE: Recursive Search
 
-# KGF: This was the old way to customize the title slide (last commit was in 2015)
+# KGF: This was the old way to customize the title slide (last commit to this repo was on 2015-03-11)
 # Changed in 2016. See bottom of this document for new way to override automatic title.
 # https://github.com/yjwen/org-reveal/issues/272
 
 #+OPTIONS: num:nil toc:nil
+
+# This repository's .gitignore used to store:
+# css/reveal.min.css
+# js/reveal.min.js
+# Both files were removed from Reveal.js in v3.0.0, 2015-01-12. What did they do?
+# https://github.com/hakimel/reveal.js/releases/tag/3.0.0
+
+# Also, December 2016: https://github.com/hakimel/reveal.js/blob/e460b2bd4b07652a489d60ce879548f22900c7cc/README.md
+# black: Black background, white text, blue links (default theme)
+#  league: Gray background, white text, blue links (default theme for reveal.js < 3.0.0)
+
 
 * Prerequisites
 - Simple recursion in Java
@@ -22,7 +43,7 @@
   #+end_export
 
 * You're lost in a maze
-#+ATTR_REVEAL: :frag fade-in
+#+ATTR_REVEAL: :frag (fade-in)
 - How do you find your way out?
 - Right Hand rule:
 -
@@ -34,7 +55,7 @@
 <img src="right-fail.png">
 #+end_export
 * Let's go to the literature
-#+ATTR_REVEAL: :frag fade-in
+#+ATTR_REVEAL: :frag (fade-in)
 - Theseus
 -
   #+begin_export html
@@ -138,7 +159,7 @@
 [[file:s2.png]]
 
 * What do we need?
-#+ATTR_REVEAL: :frag fade-in
+#+ATTR_REVEAL: :frag (fade-in)
 - Take steps one at a time to get closer to our solution
 - Keep track of where we've been so we can back up
 - Recursion!!!!!!!!!!
@@ -152,7 +173,7 @@
   }
   #+end_src
 * Storing previous state:
-#+ATTR_REVEAL: :frag fade-in
+#+ATTR_REVEAL: :frag (fade-in)
 - Factorial
   #+begin_src ditaa :file fib.png
   +----------------------+
@@ -177,7 +198,7 @@
       Stack
   #+end_src
 
-#+ATTR_REVEAL: :frag fade-in
+#+ATTR_REVEAL: :frag (fade-in)
 - Maze
  #+begin_src ditaa :file mstack.png
   +-----------------+
@@ -200,17 +221,17 @@
   #+end_src
 
 * Working it out
-#+ATTR_REVEAL: :frag fade-in
+#+ATTR_REVEAL: :frag (fade-in)
 - Base case?
-  #+ATTR_REVEAL: :frag fade-in
+  #+ATTR_REVEAL: :frag (fade-in)
   - found exit?
   - hit a wall?
 - Move to next state?
-  #+ATTR_REVEAL: :frag fade-in
+  #+ATTR_REVEAL: :frag (fade-in)
   - four possible recursive calls
   - x+1, x-1, y+1, y-1
 * How can we represent our maze?
-#+ATTR_REVEAL: :frag fade-in
+#+ATTR_REVEAL: :frag (fade-in)
 - 2D array
 - Space = wall, # = path, z = us
 -
