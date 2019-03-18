@@ -110,6 +110,8 @@
   pre.src-perl:before  { content: 'Perl'; }
   pre.src-java:before  { content: 'Java'; }
   pre.src-sql:before   { content: 'SQL'; }
+  pre.src-c+:before    { content:'C++'; }
+  pre.src-cpp:before    { content:'C++11'; }
 
   table { border-collapse:collapse; }
   caption.t-above { caption-side: top; }

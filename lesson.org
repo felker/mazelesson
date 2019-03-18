@@ -12,6 +12,73 @@
 
 # EXCEPT font size
 
+# Indeed, looking at the original .html, I can see that "default.css" was the theme that
+# was used, and a quick diff shows that it is identical to the "simple.css" that was
+# stored in the repo.
+
+# diff simple.css "/Users/kfelker/Documents/Conferences and seminars/UNLV Athena++
+# Workshop 2019/Content/Developer Meeting/My
+# talks/examples/felker-mazelesson/css/theme/default.css" | less -R
+
+# Shows mostly minor differences, but notably the Global Lato font family is 40px in
+# today's reveal.js, and 36px in the old copy. Changing the font in the modern simple.css
+# gets the versions to almost match, but it is clear that there have been changes to
+# Reveal.js's internal resizing operations:
+
+# In Google Chrome's JavaScript console:
+# Both old and new .html render the entire frame as 960x700px (it is squeezed to a
+# fraction of my MacBook screen when the console is running). However, there is additional
+# vertical padding in the new version. See "You're lost in a maze" slide, e.g.
+# Old:
+# <section id="sec-3" class="present" style="top: 49.5px; display: block;">
+# New:
+# <section id="slide-org19f2a76" style="top: 69px; display: block;" class="present">
+
+# -------------------------
+# However, you still need "REVEAL_EXTRA_CSS: ./maze.css" for some spacing changes relative
+# to simple.css AND if you want the "show hovering Java tag" on exported source blocks, etc.
+# https://emacs.stackexchange.com/questions/20912/org-babel-common-lisp-as-html?rq=1
+
+# These features are in ox-html.el for the default CSS stylesheet, but they are overridden
+# by org-reveal and reveal.js, UNLESS those features are restored by an extra CSS file.
+# https://lists.gnu.org/archive/html/emacs-orgmode/2016-03/msg00283.html
+
+# "M-x find-library RET ox-html"
+# https://stackoverflow.com/questions/10688376/locate-library-vs-find-library-in-emacs
+# locate-library shows the library name and path that would be used by a load-library (it may be a compiled .elc)
+# find-library returns the library source (and fails if it does not find the .el)
+
+# pre.src:hover:before { display: inline;}
+# pre.src-sh:before    { content: 'sh'; }
+# pre.src-bash:before  { content: 'sh'; }
+# pre.src-emacs-lisp:before { content: 'Emacs Lisp'; }
+# pre.src-R:before     { content: 'R'; }
+# pre.src-perl:before  { content: 'Perl'; }
+# pre.src-java:before  { content: 'Java'; }
+# pre.src-sql:before   { content: 'SQL'; }
+
+# However,   /* pre.src-C++ doesn't work in CSS */
+# Try https://github.com/dwcoates/emacs/blob/master/config.org#exports
+
+# org-src-lang-modes
+# (("C" . c)
+#  ("C++" . c++)
+#  ("asymptote" . asy)
+#  ("bash" . sh)
+#  ("beamer" . latex)
+#  ("calc" . fundamental)
+#  ("cpp" . c++)
+# ...
+
+# So a workaround is to use: (instead of c++)
+#  #+begin_src cpp
+
+# and in the extra CSS file:
+# pre.src-cpp:before    { content:'C++11'; }
+
+# Also: https://emacs.stackexchange.com/questions/31370/can-i-alias-a-language-for-org-babel-src-blocks
+
+# -------------------------
 # #+REVEAL_TITLE_SLIDE_TEMPLATE: Recursive Search
 
 # KGF: This was the old way to customize the title slide (last commit to this repo was on 2015-03-11)
@@ -164,7 +231,7 @@
 - Keep track of where we've been so we can back up
 - Recursion!!!!!!!!!!
 - Recall factorial:
-  #+begin_src java
+  #+begin_src cpp
   public int fact(int n){
     if (n<=1)
       return 1;

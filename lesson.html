@@ -1,313 +1,296 @@
-<?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="utf-8"/>
-<title>lesson</title>
-<meta name="author" content="(Mike Zamansky)"/>
+<title></title>
+<meta name="author" content="Kyle Gerard Felker"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="file:///Users/kfelker/reveal.js/css/reveal.css"/>
 
-<link rel="stylesheet" href="./css/reveal.css"/>
-<link rel="stylesheet" href="./css/theme/default.css" id="theme"/>
-<link rel="stylesheet" href="maze.css"/>
+<link rel="stylesheet" href="file:///Users/kfelker/reveal.js/css/theme/simple.css" id="theme"/>
+
+<link rel="stylesheet" href="./maze.css"/>
+
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
 <script>
     if( window.location.search.match( /print-pdf/gi ) ) {
         var link = document.createElement( 'link' );
         link.rel = 'stylesheet';
         link.type = 'text/css';
-        link.href = './css/print/pdf.css';
+        link.href = 'file:///Users/kfelker/reveal.js/css/print/pdf.css';
         document.getElementsByTagName( 'head' )[0].appendChild( link );
     }
 </script>
-<script type="text/javascript" src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
 </head>
 <body>
 <div class="reveal">
 <div class="slides">
-<section>
-Recursive Search
+<section id="sec-title-slide">
+<h2>Recursive Search</h2>
 </section>
 
-<section>
-<section id="sec-1" >
 
-<h2>Prerequisites</h2>
-<ul class="org-ul">
-<li>Simple recursion in Java
-</li>
-<li>How the recursion stack saves values
-</li>
-</ul>
-</section>
-</section>
 <section>
-<section id="sec-2" >
-
-<h2></h2>
-<table>
+<section id="slide-orgee187e1">
+<h2 id="orgee187e1">Prerequisites</h2>
+<ul>
+<li>Simple recursion in Java</li>
+<li>How the recursion stack saves values</li>
+<li><table>
 <tr><td><img class="quad" src="maze1.jpg"></td><td><img class="quad" src="maze4.jpg"></td></tr>
 <tr><td><img class="quad" src="maze3.jpg"></td><td><img class="quad" src="maze2.jpg"></td></tr>
-</table>
+</table></li>
+
+</ul>
+
 </section>
 </section>
 <section>
-<section id="sec-3" >
+<section id="slide-orga77ea70">
+<h2 id="orga77ea70">You're lost in a maze</h2>
+<ul>
+<li class="fragment fade-in">How do you find your way out?</li>
+<li class="fragment fade-in">Right Hand rule:</li>
+<li class="fragment fade-in"><img src=right.jpg></li>
 
-<h2>You're lost in a maze</h2>
-<ul class="org-ul">
-<li class="fragment fade-in">How do you find your way out?
-</li>
-<li class="fragment fade-in">Right Hand rule:
-</li>
-<li class="fragment fade-in"><img src=right.jpg>  
-</li>
 </ul>
 </section>
 </section>
 <section>
-<section id="sec-4" >
-
-<h2>Fail!!!!!</h2>
+<section id="slide-orgd36a8a5">
+<h2 id="orgd36a8a5">Fail!!!!!</h2>
 <img src="right-fail.png">
 </section>
 </section>
 <section>
-<section id="sec-5" >
+<section id="slide-org9f34854">
+<h2 id="org9f34854">Let's go to the literature</h2>
+<ul>
+<li class="fragment fade-in">Theseus</li>
+<li class="fragment fade-in"><img src="theseus.jpg"></li>
+<li class="fragment fade-in">Hansel and Gretel</li>
+<li class="fragment fade-in"><img src="hansel.jpg"></li>
 
-<h2>Let's go to the literature</h2>
-<ul class="org-ul">
-<li class="fragment fade-in">Theseus
-</li>
-<li class="fragment fade-in"><img src="theseus.jpg">
-</li>
-<li class="fragment fade-in">Hansel and Gretel
-</li>
-<li class="fragment fade-in"><img src="hansel.jpg">
-</li>
 </ul>
 </section>
 </section>
 <section>
-<section id="sec-6" >
+<section id="slide-org285561c">
+<h2 id="org285561c">We can look at a "State" of the maze</h2>
 
-<h2>We can look at a "State" of the maze</h2>
-<img src="s1.png" alt="s1.png" />
+<div class="figure">
+<p><img src="s1.png" alt="s1.png" />
+</p>
+</div>
+
 </section>
-
-</section>
-<section>
-<section id="sec-7" >
-
-<h2>Or a bunch of states</h2>
-<img src="s2.png" alt="s2.png" />
-</section>
-
 </section>
 <section>
-<section id="sec-8" >
+<section id="slide-org9e429f0">
+<h2 id="org9e429f0">Or a bunch of states</h2>
 
-<h2>And we can transition from state to state</h2>
-<img src="s3.png" alt="s3.png" />
+<div class="figure">
+<p><img src="s2.png" alt="s2.png" />
+</p>
+</div>
+
 </section>
-
 </section>
 <section>
-<section id="sec-9" >
+<section id="slide-orgcdf890f">
+<h2 id="orgcdf890f">And we can transition from state to state</h2>
 
-<h2>What do we need?</h2>
-<ul class="org-ul">
-<li class="fragment fade-in">Take steps one at a time to get closer to our solution
-</li>
-<li class="fragment fade-in">Keep track of where we've been so we can back up
-</li>
-<li class="fragment fade-in">Recursion!!!!!!!!!!
-</li>
-<li class="fragment fade-in">Recall factorial:
+<div class="figure">
+<p><img src="s3.png" alt="s3.png" />
+</p>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org25324bc">
+<h2 id="org25324bc">What do we need?</h2>
+<ul>
+<li class="fragment fade-in">Take steps one at a time to get closer to our solution</li>
+<li class="fragment fade-in">Keep track of where we've been so we can back up</li>
+<li class="fragment fade-in">Recursion!!!!!!!!!!</li>
+<li class="fragment fade-in"><p>
+Recall factorial:
+</p>
 <div class="org-src-container">
 
-<pre  class="src src-java">public int fact(int n){
-  if (n&lt;=1)
-    return 1;
-  else
-    return n * fact(n-1);
+<pre  class="src src-cpp"><span style="color: #859900;">public</span> <span style="color: #b58900;">int</span> fact(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">n</span>){
+  <span style="color: #859900;">if</span> (n&lt;=1)
+    <span style="color: #859900;">return</span> 1;
+  <span style="color: #859900;">else</span>
+    <span style="color: #859900;">return</span> n * fact(n-1);
 }
 </pre>
-</div>
-</li>
+</div></li>
+
 </ul>
 </section>
 </section>
 <section>
-<section id="sec-10" >
+<section id="slide-orgd3b6c25">
+<h2 id="orgd3b6c25">Storing previous state:</h2>
+<ul>
+<li class="fragment fade-in"><p>
+Factorial
+</p>
 
-<h2>Storing previous state:</h2>
-<ul class="org-ul">
-<li class="fragment fade-in">Factorial
-<img src="fib.png" alt="fib.png" />
-</li>
+<div class="figure">
+<p><img src="fib.png" alt="fib.png" />
+</p>
+</div></li>
+
 </ul>
 
-<ul class="org-ul">
-<li class="fragment fade-in">Maze
-<img src="mstack.png" alt="mstack.png" />
-</li>
+<ul>
+<li class="fragment fade-in"><p>
+Maze
+</p>
+
+<div class="figure">
+<p><img src="mstack.png" alt="mstack.png" />
+</p>
+</div></li>
+
 </ul>
+
 </section>
-
-
 </section>
 <section>
-<section id="sec-11" >
-
-<h2>Working it out</h2>
-<ul class="org-ul">
+<section id="slide-org3a12b50">
+<h2 id="org3a12b50">Working it out</h2>
+<ul>
 <li class="fragment fade-in">Base case?
-<ul class="org-ul">
-<li class="fragment fade-in">found exit?
-</li>
-<li class="fragment fade-in">hit a wall?
-</li>
-</ul>
-</li>
+<ul>
+<li class="fragment fade-in">found exit?</li>
+<li class="fragment fade-in">hit a wall?</li>
+
+</ul></li>
 <li class="fragment fade-in">Move to next state?
-<ul class="org-ul">
-<li class="fragment fade-in">four possible recursive calls
-</li>
-<li class="fragment fade-in">x+1, x-1, y+1, y-1
-</li>
-</ul>
-</li>
+<ul>
+<li class="fragment fade-in">four possible recursive calls</li>
+<li class="fragment fade-in">x+1, x-1, y+1, y-1</li>
+
+</ul></li>
+
 </ul>
 </section>
 </section>
 <section>
-<section id="sec-12" >
+<section id="slide-org54745d2">
+<h2 id="org54745d2">How can we represent our maze?</h2>
+<ul>
+<li class="fragment fade-in">2D array</li>
+<li class="fragment fade-in">Space = wall, # = path, z = us</li>
+<li class="fragment fade-in"><pre>
+ #################
+ #   #        #  #
+ #   #        #  ##################
+ #   #        #            #      #
+ #   #        #            #      #
+ #   #######  #   ##########      #
+ ###       #  #            #      #
+ ####################      #      #
+ #####       #                    #
+ #           #                    #
+ #           #       #            #
+ #           #       #            #
+ #           #       #            #
+             #       #            #
+  ################   ###############
+                #            #######
+                #
+                ##########$
+     </pre>y</li>
 
-<h2>How can we represent our maze?</h2>
-<ul class="org-ul">
-<li class="fragment fade-in">2D array
-</li>
-<li class="fragment fade-in">Space = wall, # = path, z = us
-</li>
-<li class="fragment fade-in"><pre> 
- #################                      
- #   #        #  #                      
- #   #        #  ##################     
- #   #        #            #      #     
- #   #        #            #      #     
- #   #######  #   ##########      #     
- ###       #  #            #      #     
- ####################      #      #     
- #####       #                    #     
- #           #                    #     
- #           #       #            #     
- #           #       #            #     
- #           #       #            #     
-             #       #            #     
-  ################   ###############    
-                #            #######    
-                #                       
-                ##########$             
-     </pre>y                                   
-</li>
 </ul>
-</section>
 
+</section>
 </section>
 <section>
-<section id="sec-13" >
-
-<h2>Algorithm</h2>
-<ul class="org-ul">
+<section id="slide-org3e91e24">
+<h2 id="org3e91e24">Algorithm</h2>
+<ul>
 <li>Base cases
-<ul class="org-ul">
-<li>If we're at a wall, return
-</li>
-<li>If we're at the exit, set solved to true and return
-</li>
-<li>If we're solved, return
-</li>
-</ul>
-</li>
+<ul>
+<li>If we're at a wall, return</li>
+<li>If we're at the exit, set solved to true and return</li>
+<li>If we're solved, return</li>
+
+</ul></li>
 <li>Recursive reduction
-<ul class="org-ul">
-<li>Put us (z) in the current x,y location of the 2D array  
-</li>
-<li>solve from the x+1 location
-</li>
-<li>solve from the x-1 location
-</li>
-<li>solve from the y+1 location
-</li>
-<li>solve from the y-1 location
-</li>
-<li>if not solved, remove us from the board
-</li>
-</ul>
-</li>
+<ul>
+<li>Put us (z) in the current x,y location of the 2D array</li>
+<li>solve from the x+1 location</li>
+<li>solve from the x-1 location</li>
+<li>solve from the y+1 location</li>
+<li>solve from the y-1 location</li>
+<li>if not solved, remove us from the board</li>
+
+</ul></li>
+
 </ul>
 </section>
 </section>
 <section>
-<section id="sec-14" >
-
-<h2>Solver</h2>
+<section id="slide-orgc2c2ddb">
+<h2 id="orgc2c2ddb">Solver</h2>
 <div class="org-src-container">
 
-<pre  class="src src-java">public void solve(int x, int y){
-    if (board[x][y]==wall ||
-        board[x][y]==visited ||
-        solved){
-        return;
-    }
+<pre  class="src src-java"><span style="color: #859900;">public</span> <span style="color: #b58900;">void</span> <span style="color: #268bd2;">solve</span>(<span style="color: #b58900;">int</span> <span style="color: #268bd2;">x</span>, <span style="color: #b58900;">int</span> <span style="color: #268bd2;">y</span>){
+        <span style="color: #859900;">if</span> (board[x][y]==wall ||
+                board[x][y]==visited ||
+                solved){
+                <span style="color: #859900;">return</span>;
+        }
 
-    if (board[x][y]==exit){
-        System.out.println(this);
-        solved = true;
-    }
+        <span style="color: #859900;">if</span> (board[x][y]==exit){
+                System.out.println(<span style="color: #859900;">this</span>);
+                solved = <span style="color: #2aa198;">true</span>;
+        }
 
-    System.out.println(this);
-    board[x][y]=me;
-    solve(x+1,y);
-    solve(x-1,y);
-    solve(x,y+1);
-    solve(x,y-1);
-    if (!solved){
-        board[x][y]=visited;
-    }
+        System.out.println(<span style="color: #859900;">this</span>);
+        board[x][y]=me;
+        solve(x+1,y);
+        solve(x-1,y);
+        solve(x,y+1);
+        solve(x,y-1);
+        <span style="color: #859900;">if</span> (<span style="color: #dc322f;">!</span>solved){
+                board[x][y]=visited;
+        }
 }
+
 </pre>
 </div>
 </section>
 </section>
 <section>
-<section id="sec-15" >
-
-<h2>Let's look at finished solver</h2>
+<section id="slide-org9a623ce">
+<h2 id="org9a623ce">Let's look at finished solver</h2>
 </section>
 </section>
 <section>
-<section id="sec-16" >
+<section id="slide-orgf25a4b6">
+<h2 id="orgf25a4b6">Next steps</h2>
+<ul>
+<li>Other state space search and related problems</li>
+<li>Heuristic Search</li>
+<li>Pathway to more advanced search (A*)</li>
+<li>implicit data structures</li>
 
-<h2>Next steps</h2>
-<ul class="org-ul">
-<li>Other state space search and related problems
-</li>
-<li>Heuristic Search
-</li>
-<li>Pathway to more advanced search (A*)
-</li>
-<li>implicit data structures
-</li>
 </ul>
 </section>
 </section>
 </div>
 </div>
-
-<script src="./lib/js/head.min.js"></script>
-<script src="./js/reveal.js"></script>
-
+<script src="file:///Users/kfelker/reveal.js/lib/js/head.min.js"></script>
+<script src="file:///Users/kfelker/reveal.js/js/reveal.js"></script>
 <script>
 // Full list of configuration options available here:
 // https://github.com/hakimel/reveal.js#configuration
@@ -317,9 +300,13 @@ controls: true,
 progress: true,
 history: false,
 center: true,
-slideNumber: true,
+slideNumber: 'c',
 rollingLinks: false,
 keyboard: true,
+mouseWheel: false,
+fragmentInURL: false,
+pdfSeparateFragments: true,
+
 overview: true,
 
 theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
@@ -333,13 +320,11 @@ multiplex: {
 
 // Optional libraries used to extend on reveal.js
 dependencies: [
- { src: './lib/js/classList.js', condition: function() { return !document.body.classList; } },
- { src: './plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: './plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
- { src: './plugin/highlight/highlight.js', async: true, callback: function() { hljs.initHighlightingOnLoad(); } },
- { src: './plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
- { src: './plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }
-]
+ { src: 'file:///Users/kfelker/reveal.js/lib/js/classList.js', condition: function() { return !document.body.classList; } },
+ { src: 'file:///Users/kfelker/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:///Users/kfelker/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:///Users/kfelker/reveal.js/plugin/zoom-js/zoom.js', async: true, condition: function() { return !!document.body.classList; } },
+ { src: 'file:///Users/kfelker/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
 });
 </script>
 </body>
